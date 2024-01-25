@@ -3,23 +3,37 @@ title: "Erika_notes"
 format: html
 ---
 
-## Quarto
+## How to push a locally created ***R*** project to ***GitHub***]
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+in RStudio > File > New Project > New Directory > New Project > Directory name: <Repository name>, check "Create a git repository"
 
-## Running Code
+### Configure a GitHub Personal Access Token (PAT):
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+Login to your GitHub account and go to the Settings tab. Then select Developer Settings and then Personal Access Tokens.
+Select Generate new token and give it a nickname that reminds you of the intended purpose (e.g., “Access GitHub from RStudio”).
+Pick a scope that confers the privileges you need, e.g., repo, and then press the green “Generate Token” button.
+The PAT will be displayed. It is a string of 40 random letters and digits. Copy this string to the clipboard.
+Enter the PAT in your “.Renviron” file as a line that looks like this: `GITHUB_PAT=<your token>` (not in quotation marks).
+The “.Renviron” file is a hidden file located in a user’s home directory that can be used to set some default parameters for new R sessions. You can load and edit this with a function from the {usethis} package. At a console prompt, type `usethis::edit_r_environ()`. Your “.Renviron” file should open up in the RStudio editor. Add your the `GITHUB_PAT=<your token>` line as above, save and close the file. Be sure to put a line break at the end!
+Restart R (Session > Restart R in the RStudio menu bar), as environment variables are loaded from “.Renviron” only at the start of an R session. Check that the PAT is now available: `Sys.getenv("GITHUB_PAT")`. You should see your PAT print to screen.
 
 ```{r}
-1 + 1
+install.packages('usethis')
+librar(usethis)
+# use_git_config(user.name = "ecarlson5683", user.email = "ecarlson5683@gmail.com") #done previously
+use_git()
+usethis::use_github(protocol="https")
 ```
 
-You can add options to executable code like this 
-
+First attempt, got an error message
 ```{r}
-#| echo: false
-2 * 2
+> usethis::use_github(protocol="https")
+✔ Setting active project to '/Users/erc2866/Development/Repos/exercise-2b'
+Error in `git_default_branch()`:
+! Can't determine the local repo's default branch.
+Run `rlang::last_trace()` to see where the error occurred.
 ```
+
+Then realized 1 commit is required prior to pushing a locally created repository up, so I did that and it worked
 
 The `echo: false` option disables the printing of code (only output is displayed).
