@@ -1,5 +1,6 @@
 ---
 title: "Erika_notes"
+date: 2024-01-26
 format: html
 ---
 
@@ -17,23 +18,26 @@ Enter the PAT in your “.Renviron” file as a line that looks like this: `GITH
 The “.Renviron” file is a hidden file located in a user’s home directory that can be used to set some default parameters for new R sessions. You can load and edit this with a function from the {usethis} package. At a console prompt, type `usethis::edit_r_environ()`. Your “.Renviron” file should open up in the RStudio editor. Add your the `GITHUB_PAT=<your token>` line as above, save and close the file. Be sure to put a line break at the end!
 Restart R (Session > Restart R in the RStudio menu bar), as environment variables are loaded from “.Renviron” only at the start of an R session. Check that the PAT is now available: `Sys.getenv("GITHUB_PAT")`. You should see your PAT print to screen.
 
-```{r}
+```{r eval=FALSE}
 install.packages('usethis', repos = "http://cran.us.r-project.org")
 library(usethis)
-# use_git_config(user.name = "ecarlson5683", user.email = "ecarlson5683@gmail.com") #done previously
+# # use_git_config(user.name = "ecarlson5683", user.email = "ecarlson5683@gmail.com") #done previously
 use_git()
 usethis::use_github(protocol="https")
 ```
 
+
 First attempt, got an error message
-```{r}
-# > usethis::use_github(protocol="https")
-# ✔ Setting active project to '/Users/erc2866/Development/Repos/exercise-2b'
-# Error in `git_default_branch()`:
-# ! Can't determine the local repo's default branch.
-# Run `rlang::last_trace()` to see where the error occurred.
+```{r eval=FALSE}
+> usethis::use_github(protocol="https")
+✔ Setting active project to '/Users/erc2866/Development/Repos/exercise-2b'
+Error in `git_default_branch()`:
+! Can't determine the local repo's default branch.
+Run `rlang::last_trace()` to see where the error occurred.
 ```
 
 Then realized 1 commit is required prior to pushing a locally created repository up, so I did that and it worked
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+The `eval=FALSE` option disables running of code (only text is displayed).
